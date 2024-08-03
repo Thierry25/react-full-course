@@ -2,7 +2,7 @@ import pizzaData from "./data";
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Header />
       <Menu />
       <Footer />
@@ -11,15 +11,19 @@ function App() {
 }
 
 function Header() {
-  return <h1>Fast React Pizza Co.</h1>;
+  return (
+    <header className="header">
+      <h1>Fast React Pizza Co.</h1>
+    </header>
+  );
 }
 
 function Menu() {
   return (
-    <div>
-      <h2>Welcome to our Lovely Restaurant</h2>
+    <main className="menu">
+      <h2>Our Menu</h2>
       <PizzaList />
-    </div>
+    </main>
   );
 }
 
@@ -35,16 +39,26 @@ function PizzaList() {
 
 function Pizza({ pizza }) {
   return (
-    <li>
+    <li className="pizza">
       <img src={pizza.photoName} alt={pizza.name} />
-      <h2>{pizza.name}</h2>
-      <p>{pizza.ingredients}</p>
+      <div>
+        <h3>{pizza.name}</h3>
+        <p>{pizza.ingredients}</p>
+      </div>
+      <span>{Number(pizza.price) + 2.15}</span>
     </li>
   );
 }
 
 function Footer() {
-  return <footer>{new Date().toLocaleTimeString()}We're currently open</footer>;
+  const hour = new Date().getHours();
+  const openHour = 8;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+
+  return (
+    <footer>{new Date().toLocaleTimeString()} We're currently open</footer>
+  );
 }
 
 export default App;
