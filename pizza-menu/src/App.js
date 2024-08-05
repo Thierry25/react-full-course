@@ -28,24 +28,38 @@ function Menu() {
 }
 
 function PizzaList() {
+  const pizzas = pizzaData;
+  const length = pizzas.length;
   return (
-    <ul>
-      {pizzaData.map((p) => (
-        <Pizza pizza={p} />
-      ))}
-    </ul>
+    <>
+      {length > 0 ? (
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((p) => (
+              <Pizza pizza={p} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We currently don't have any pizzas available</p>
+      )}
+    </>
   );
 }
 
 function Pizza({ pizza }) {
   return (
-    <li className="pizza">
+    <li className={`pizza ${pizza.soldOut ? "sold-out" : ""}`}>
       <img src={pizza.photoName} alt={pizza.name} />
       <div>
         <h3>{pizza.name}</h3>
         <p>{pizza.ingredients}</p>
       </div>
-      <span>{Number(pizza.price) + 2.15}</span>
+      <span>{pizza.soldOut ? "SOLD OUT" : Number(pizza.price) + 2.15}</span>
     </li>
   );
 }
@@ -57,8 +71,24 @@ function Footer() {
   const isOpen = hour >= openHour && hour <= closeHour;
 
   return (
-    <footer>{new Date().toLocaleTimeString()} We're currently open</footer>
+    <footer className="footer">
+      {isOpen ? (
+        <Order closeHour={closeHour} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00
+        </p>
+      )}
+    </footer>
   );
 }
 
+function Order({ closeHour }) {
+  return (
+    <div className="order">
+      <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+      <button className="btn">Order</button>
+    </div>
+  );
+}
 export default App;
